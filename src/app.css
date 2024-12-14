@@ -1,0 +1,7 @@
+@import 'primeflex/primeflex.scss';
+@import 'primeicons/primeicons.css';
+@import 'primereact/resources/themes/viva-dark/theme.css';
+
+.p-fileupload-file-badge {
+    display: none !important;
+}
