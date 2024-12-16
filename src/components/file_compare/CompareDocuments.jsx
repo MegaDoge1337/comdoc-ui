@@ -12,7 +12,7 @@ function CompareDocuments() {
 
     return (
         <div className="card mt-3">
-            <FileUpload name="files" url='http://localhost:5000/compare' multiple accept="application/pdf" emptyTemplate={<p className="m-0">Добавьте файлы, перетащив их в данную область</p>} chooseLabel='Добавить' uploadLabel='Отправить' cancelLabel='Сбросить' onUpload={onUpload}/>
+            <FileUpload name="files" url='http://localhost:5000/extract_facts' multiple accept="application/pdf" emptyTemplate={<p className="m-0">Добавьте файлы, перетащив их в данную область</p>} chooseLabel='Добавить' uploadLabel='Отправить' cancelLabel='Сбросить' onUpload={onUpload}/>
         </div>
     )
 }
