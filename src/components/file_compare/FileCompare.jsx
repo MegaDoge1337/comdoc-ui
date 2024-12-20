@@ -9,11 +9,15 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Card } from 'primereact/card';
 
+import { PdfLoader, PdfHighlighter } from "react-pdf-highlighter";
+
 function FileCompare() {
+
     const [isDone, setIsDone] = useState(false);
     const [isFactsLoaded, setIsFactsLoaded] = useState(false);
     const [facts, setFacts] = useState([]);
     const params = useParams();
+    const [scale, setScale] = useState("1")
 
     useEffect(() => {
         let timeout = 5000;
@@ -67,9 +71,35 @@ function FileCompare() {
                         </TabPanel>
                         <TabPanel header="Документы">
                             <div className="card flex justify-content-center">
-                                <div>Первый документ</div>
-                                <Divider layout="vertical" />
-                                <div>Второй документ</div>
+                                <div style={{ display: "flex", width: "100%", height: "100vh" }}>
+                                    <div style={{ width: "50%", height: "100%", position: "relative" }}>
+                                        <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}>
+                                            <PdfLoader style={{position: "relative"}} url={`http://localhost:5000/view_file/${params.id}/f_file`}>
+                                                {(pdfDocument) => (
+                                                    <PdfHighlighter
+                                                        pdfDocument={pdfDocument}
+                                                        pdfScaleValue={`${scale}`}
+                                                        highlights={[]}
+                                                    />
+                                                )}
+                                            </PdfLoader>
+                                        </div>
+                                    </div>
+                                    <div style={{ width: "50%", height: "100%", position: "relative" }}>
+                                        <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}>
+                                            <PdfLoader style={{position: "relative"}} url={`http://localhost:5000/view_file/${params.id}/s_file`}>
+                                                {(pdfDocument) => (
+                                                    <PdfHighlighter
+                                                        highlights={[]}
+                                                        pdfDocument={pdfDocument}
+                                                        pdfScaleValue={`${scale}`}
+                                                    />
+                                                )}
+                                            </PdfLoader>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* <Divider layout="vertical" /> */}
                             </div>
                         </TabPanel>
                     </TabView>

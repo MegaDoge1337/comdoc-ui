@@ -1,6 +1,7 @@
 @import 'primeflex/primeflex.scss';
 @import 'primeicons/primeicons.css';
 @import 'primereact/resources/themes/viva-light/theme.css';
+@import "react-pdf-highlighter/dist/style.css";
 
 .p-fileupload-file-badge {
     display: none !important;
