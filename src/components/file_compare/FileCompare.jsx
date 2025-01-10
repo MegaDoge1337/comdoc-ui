@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import FileCompareService from "../../services/FileCompareService";
 
 import { TabView, TabPanel } from 'primereact/tabview';
-import { Divider } from 'primereact/divider';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Card } from 'primereact/card';
 
 import { PdfLoader, PdfHighlighter } from "react-pdf-highlighter";
+import { classNames } from "primereact/utils";
 
 function FileCompare() {
 
@@ -17,7 +17,6 @@ function FileCompare() {
     const [isFactsLoaded, setIsFactsLoaded] = useState(false);
     const [facts, setFacts] = useState([]);
     const params = useParams();
-    const [scale, setScale] = useState("1")
 
     useEffect(() => {
         let timeout = 5000;
@@ -32,7 +31,6 @@ function FileCompare() {
                 const facts = await FileCompareService.get_compared_facts(params.id);
                 if(facts) {
                     setIsFactsLoaded(true);
-                    console.log(facts)
                     setFacts(facts);
                 }
             }
@@ -56,6 +54,10 @@ function FileCompare() {
         };
     };
 
+    const verifiedBodyTemplate = (rowData) => {
+        return <i className={classNames('pi', { 'text-green-500 pi-check-circle': rowData.is_equals, 'text-red-900 pi-times-circle': !rowData.is_equals })}></i>;
+    };
+
     if(isDone && isFactsLoaded) {
         return (
             <div className="card mt-3">
@@ -67,18 +69,19 @@ function FileCompare() {
                                 <Column field="line_number" header="№ Линии" sortable style={{ width: '25%' }}></Column>
                                 <Column field="f_value" header="Факт №1" sortable style={{ width: '25%' }}></Column>
                                 <Column field="s_value" header="Факт №2" sortable style={{ width: '25%' }}></Column>
+                                <Column field="is_equals" header="Совпадение" sortable dataType="boolean" style={{ minWidth: '6rem' }} body={verifiedBodyTemplate}></Column>
                             </DataTable>
                         </TabPanel>
                         <TabPanel header="Документы">
                             <div className="card flex justify-content-center">
-                                <div style={{ display: "flex", width: "100%", height: "100vh" }}>
+                                <div style={{ display: "flex", width: "100%", height: "70vh" }}>
                                     <div style={{ width: "50%", height: "100%", position: "relative" }}>
                                         <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}>
                                             <PdfLoader style={{position: "relative"}} url={`http://localhost:5000/view_file/${params.id}/f_file`}>
                                                 {(pdfDocument) => (
                                                     <PdfHighlighter
                                                         pdfDocument={pdfDocument}
-                                                        pdfScaleValue={`${scale}`}
+                                                        pdfScaleValue="2"
                                                         highlights={[]}
                                                     />
                                                 )}
@@ -92,14 +95,13 @@ function FileCompare() {
                                                     <PdfHighlighter
                                                         highlights={[]}
                                                         pdfDocument={pdfDocument}
-                                                        pdfScaleValue={`${scale}`}
+                                                        pdfScaleValue="2"
                                                     />
                                                 )}
                                             </PdfLoader>
                                         </div>
                                     </div>
                                 </div>
-                                {/* <Divider layout="vertical" /> */}
                             </div>
                         </TabPanel>
                     </TabView>
