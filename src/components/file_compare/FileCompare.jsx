@@ -77,7 +77,7 @@ function FileCompare() {
                                 <div style={{ display: "flex", width: "100%", height: "70vh" }}>
                                     <div style={{ width: "50%", height: "100%", position: "relative" }}>
                                         <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}>
-                                            <PdfLoader style={{position: "relative"}} url={`http://localhost:5000/view_file/${params.id}/f_file`}>
+                                            <PdfLoader style={{position: "relative"}} url={`${import.meta.env.VITE_COMPARE_SERVICE_URL}${params.id}/f_file`}>
                                                 {(pdfDocument) => (
                                                     <PdfHighlighter
                                                         pdfDocument={pdfDocument}
@@ -90,7 +90,7 @@ function FileCompare() {
                                     </div>
                                     <div style={{ width: "50%", height: "100%", position: "relative" }}>
                                         <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}>
-                                            <PdfLoader style={{position: "relative"}} url={`http://localhost:5000/view_file/${params.id}/s_file`}>
+                                            <PdfLoader style={{position: "relative"}} url={`${import.meta.env.VITE_COMPARE_SERVICE_URL}${params.id}/s_file`}>
                                                 {(pdfDocument) => (
                                                     <PdfHighlighter
                                                         highlights={[]}
